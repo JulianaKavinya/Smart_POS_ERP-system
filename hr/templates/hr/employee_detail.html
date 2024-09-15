@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Detail</title>
+</head>
+<body>
+    <h1>{{ employee.first_name }} {{ employee.last_name }}</h1>
+    <p>Email: {{ employee.email }}</p>
+    <p>Phone Number: {{ employee.phone_number }}</p>
+    <p>Address: {{ employee.address }}</p>
+    <p>Date of Birth: {{ employee.date_of_birth }}</p>
+    <p>Department: {{ employee.department }}</p>
+    <p>Position: {{ employee.position }}</p>
+    <p>Salary: {{ employee.salary }}</p>
+    <p>Hire Date: {{ employee.hire_date }}</p>
+    <p>Status: {{ employee.status }}</p>
+    <a href="{% url 'employee_list' %}">Back to Employee List</a>
+</body>
+</html>

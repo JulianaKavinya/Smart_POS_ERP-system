@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee List</title>
+</head>
+<body>
+    <h1>Employee List</h1>
+    <ul>
+        {% for employee in employees %}
+            <li>
+                <a href="{% url 'employee_detail' employee.pk %}">
+                    {{ employee.first_name }} {{ employee.last_name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+<!--This template displays a list of employees. 
+For each employee, it creates a clickable link that directs the user to a detailed view of that employee. 
+The loop in the template generates a list item for each employee in the employees list provided by the view -->
