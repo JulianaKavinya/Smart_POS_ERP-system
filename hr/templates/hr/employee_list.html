@@ -12,7 +12,10 @@
                     {{ employee.first_name }} {{ employee.last_name }}
                 </a>
             </li>
+            {% empty %}
+            <li>No employees found at the moment please 🙁.</li>
         {% endfor %}
+           
     </ul>
 </body>
 </html>
