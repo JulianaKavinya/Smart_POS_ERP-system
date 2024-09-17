@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Employee</title>
+</head>
+<body>
+    <h1>Add New Employee</h1>
+    <!-- Form to add a new employee -->
+    <form method="post">
+        {% csrf_token %}
+        <!-- Render form fields as paragraph elements -->
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    <!-- Link to go back to the employee list -->
+    <a href="{% url 'employee_list' %}">Back to Employee List</a>
+</body>
+</html>
