@@ -20,5 +20,7 @@ class Employee(models.Model):
 class Meta:
     permissions = [
         ("view_employee", "Can view employee details"),
+        ("view_sensitive_employee_data", "Can view sensitive employee data"),
+        
     ]
 

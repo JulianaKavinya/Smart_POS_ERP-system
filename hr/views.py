@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 
 
-
 # View to display the list of employees
 @login_required  # Ensure only logged-in users can access the employee list
 def employee_list(request):
@@ -14,11 +13,19 @@ def employee_list(request):
 
 
 # View to display employee details with permission check
+@login_required
 @permission_required('hr.view_employee', raise_exception=True)  # Ensure user has 'view_employee' permission
 def employee_detail(request, pk):
     employee = get_object_or_404(Employee, pk=pk)  # Fetch the employee object or return 404 if not found
-    return render(request, 'hr/employee_detail.html', {'employee': employee})
+    # Check if the user has permission to view sensitive data
+    show_sensitive_data = request.user.has_perm('hr.view_sensitive_employee_data')
 
+    return render(request, 'hr/employee_detail.html', {
+        'employee': employee,
+        'show_sensitive_data': show_sensitive_data
+    })
+    
+    
 
 # View to handle adding a new employee
 @login_required  # Ensure only logged-in users can add employees
