@@ -1,6 +1,9 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Employee
 from .forms import EmployeeForm 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+
 
 def employee_list(request):
     employees = Employee.objects.all()
@@ -29,3 +32,28 @@ def add_employee(request):
         form = EmployeeForm()
         # Render the template with the form
     return render(request, 'hr/add_employee.html', {'form': form})
+
+
+# Decorator to ensure that only logged-in users can access this view
+@login_required
+def employee_detail(request, pk):
+    # Fetch the employee object or return a 404 if not found
+    employee = get_object_or_404(Employee, pk=pk)
+    
+    # Check if the user has permission to view the employee details
+    if request.user.has_perm('hr.view_employee', employee):
+        # Render the employee details template if user has permission
+        return render(request, 'hr/employee_detail.html', {'employee': employee})
+    else:
+        # Render a forbidden page if user does not have permission
+        return render(request, '403.html')  # Custom 403 Forbidden page
+    
+
+    # Decorator to ensure that the user has the 'view_employee' permission
+@permission_required('hr.view_employee', raise_exception=True)
+def employee_detail(request, pk):
+    # Fetch the employee object or return a 404 if not found
+    employee = get_object_or_404(Employee, pk=pk)
+    
+    # Render the employee details template since the user has permission
+    return render(request, 'hr/employee_detail.html', {'employee': employee})

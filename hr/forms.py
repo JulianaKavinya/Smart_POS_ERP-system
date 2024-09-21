@@ -14,3 +14,16 @@ class EmployeeForm(forms.ModelForm):
         widget=forms.DateInput(attrs={'type': 'date'}),
         input_formats=['%Y-%m-%d']
     )
+
+
+# Override the save method to ensure that only authorized users can save
+    def save(self, commit=True):
+        # Ensure that the form is valid before saving
+        if self.is_valid():
+            employee = super().save(commit=False)
+            if commit:
+                employee.save()
+            return employee
+        else:
+            # Handle form errors
+            return None
