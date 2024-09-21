@@ -4,20 +4,21 @@
     <title>Employee Detail</title>
 </head>
 <body>
-  {% if user.has_perm 'hr.view_employee' %}
-    <h1>{{ employee.first_name }} {{ employee.last_name }}</h1>
-    <p>Email: {{ employee.email }}</p>
-    <p>Phone Number: {{ employee.phone_number }}</p>
-    <p>Address: {{ employee.address }}</p>
-    <p>Date of Birth: {{ employee.date_of_birth }}</p>
-    <p>Department: {{ employee.department }}</p>
-    <p>Position: {{ employee.position }}</p>
-    <p>Salary: {{ employee.salary }}</p>
-    <p>Hire Date: {{ employee.hire_date }}</p>
-    <p>Status: {{ employee.status }}</p>
-    <a href="{% url 'employee_list' %}">Back to Employee List</a>
-  {% else %}
-    <p>You do not have permission to view these details.</p>
-  {% endif %}
+    <!-- Check if the user has permission to view employee details -->
+    {% if perms.hr.view_employee %}
+        <h1>{{ employee.first_name }} {{ employee.last_name }}</h1>
+        <p>Email: {{ employee.email }}</p>
+        <p>Phone Number: {{ employee.phone_number }}</p>
+        <p>Address: {{ employee.address }}</p>
+        <p>Date of Birth: {{ employee.date_of_birth }}</p>
+        <p>Department: {{ employee.department }}</p>
+        <p>Position: {{ employee.position }}</p>
+        <p>Salary: {{ employee.salary }}</p>
+        <p>Hire Date: {{ employee.hire_date }}</p>
+        <p>Status: {{ employee.status }}</p>
+        <a href="{% url 'employee_list' %}">Back to Employee List</a>
+    {% else %}
+        <p>You do not have permission to view these details.</p>
+    {% endif %}
 </body>
 </html>

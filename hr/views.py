@@ -5,55 +5,65 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 
 
+
+# View to display the list of employees
+@login_required  # Ensure only logged-in users can access the employee list
 def employee_list(request):
-    employees = Employee.objects.all()
-    #print(employees)
+    employees = Employee.objects.all()  # Fetch all employees
     return render(request, 'hr/employee_list.html', {'employees': employees})
 
+
+# View to display employee details with permission check
+@permission_required('hr.view_employee', raise_exception=True)  # Ensure user has 'view_employee' permission
 def employee_detail(request, pk):
-    employee = get_object_or_404(Employee, pk=pk)
+    employee = get_object_or_404(Employee, pk=pk)  # Fetch the employee object or return 404 if not found
     return render(request, 'hr/employee_detail.html', {'employee': employee})
 
+
 # View to handle adding a new employee
+@login_required  # Ensure only logged-in users can add employees
+@permission_required('hr.add_employee', raise_exception=True)  # Check for 'add_employee' permission
 def add_employee(request):
     if request.method == 'POST':
-        # If the request is a POST, process the form data
-        form = EmployeeForm(request.POST)
+        form = EmployeeForm(request.POST)  # Process the form data
         if form.is_valid():
-            # If the form is valid, save the new employee to the database
-            form.save()
-            # Redirect to the employee list page after successful submission
-            return redirect('employee_list')
+            form.save()  # Save the new employee to the database
+            return redirect('employee_list')  # Redirect to employee list after successful submission
         else:
-            # Print or log form errors for debugging
-            print(form.errors)
+            print(form.errors)  # Log or display form errors for debugging
     else:
-        # If the request is GET, display a blank form
-        form = EmployeeForm()
-        # Render the template with the form
+        form = EmployeeForm()  # Display a blank form for GET requests
     return render(request, 'hr/add_employee.html', {'form': form})
 
 
-# Decorator to ensure that only logged-in users can access this view
-@login_required
-def employee_detail(request, pk):
-    # Fetch the employee object or return a 404 if not found
-    employee = get_object_or_404(Employee, pk=pk)
-    
-    # Check if the user has permission to view the employee details
-    if request.user.has_perm('hr.view_employee', employee):
-        # Render the employee details template if user has permission
-        return render(request, 'hr/employee_detail.html', {'employee': employee})
+# View to handle editing an employee's details
+@login_required  # Ensure only logged-in users can edit employees
+@permission_required('hr.change_employee', raise_exception=True)  # Check for 'change_employee' permission
+def edit_employee(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)  # Fetch the employee object or return 404 if not found
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST, instance=employee)  # Bind the form to the existing employee
+        if form.is_valid():
+            form.save()  # Save the updated employee to the database
+            return redirect('employee_detail', pk=employee.pk)  # Redirect to employee detail after successful edit
+        else:
+            print(form.errors)  # Log or display form errors for debugging
     else:
-        # Render a forbidden page if user does not have permission
-        return render(request, '403.html')  # Custom 403 Forbidden page
-    
+        form = EmployeeForm(instance=employee)  # Display the form with existing employee data
+    return render(request, 'hr/edit_employee.html', {'form': form})
 
-    # Decorator to ensure that the user has the 'view_employee' permission
-@permission_required('hr.view_employee', raise_exception=True)
-def employee_detail(request, pk):
-    # Fetch the employee object or return a 404 if not found
-    employee = get_object_or_404(Employee, pk=pk)
-    
-    # Render the employee details template since the user has permission
-    return render(request, 'hr/employee_detail.html', {'employee': employee})
+
+# View to handle deleting an employee
+@login_required  # Ensure only logged-in users can delete employees
+@permission_required('hr.delete_employee', raise_exception=True)  # Check for 'delete_employee' permission
+def delete_employee(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)  # Fetch the employee object or return 404 if not found
+    if request.method == 'POST':
+        employee.delete()  # Delete the employee from the database
+        return redirect('employee_list')  # Redirect to employee list after deletion
+    return render(request, 'hr/confirm_delete.html', {'employee': employee})  # Render a confirmation page
+
+
+# Custom 403 Forbidden handler for unauthorized access attempts (optional)
+def custom_403_view(request, exception=None):
+    return render(request, '403.html', status=403)  # Render a custom 403 error page
