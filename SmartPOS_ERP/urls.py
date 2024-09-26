@@ -19,5 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('hr/', include('hr.urls')),
+    path('', include('home.urls')),  # Direct to the landing page
+    path('hr/', include('hr.urls')),
 ]
