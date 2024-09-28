@@ -6,16 +6,80 @@
     <title>SmartPOS ERP - Welcome</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white; /* Default text color */
+        }
+        header {
+            position: relative;
+            background-image: url("{% static 'home/images/POS.JPG.png' %}"); /* Background image */
+            background-size: contain;
+            background-repeat: no-repeat; 
+            background-position: center;
+            height: 70vh; /* Full height for better impact */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            /* Adding a soft gradient overlay */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{% static 'home/images/POS.JPG.png' %}");
+        }
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Shadow for better visibility */
+        }
+        p {
+            font-size: 24px;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        nav {
+            margin-top: 30px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for nav */
+            border-radius: 8px;
+            padding: 15px;
+        }
+        nav a {
+            margin: 0 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #007BFF; /* Change color on hover */
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f1f1f1;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to SmartPOS ERP System</h1>
-        <p>Manage your business efficiently with our integrated system.</p>
+        <div>
+            <h1>Welcome to SmartPOS ERP System</h1>
+            <p>Manage your business efficiently with our integrated system.</p>
+        </div>
     </header>
     <nav>
         <a href="{% url 'hr:dashboard' %}">HR Management</a>
         <a href="{% url 'inventory:dashboard' %}">Inventory Management</a>
         <a href="{% url 'sales:dashboard' %}">Sales Management</a>
     </nav>
+    <footer>
+        <p>&copy; 2024 SmartPOS ERP System. All rights reserved. Developed by Juliana.</p>
+    </footer>
 </body>
 </html>
