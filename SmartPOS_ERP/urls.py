@@ -19,6 +19,9 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),  # Direct to the landing page
     path('hr/', include('hr.urls')),
+    path('inventory/', include(('inventory.urls', 'inventory_app'), namespace='inventory_app')),
+    path('sales/', include(('sales.urls', 'sales_app'), namespace='sales_app')),
+    path('', include('home.urls')),  # Assuming you have a home app as well
+
 ]

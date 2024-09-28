@@ -74,3 +74,6 @@ def delete_employee(request, pk):
 # Custom 403 Forbidden handler for unauthorized access attempts (optional)
 def custom_403_view(request, exception=None):
     return render(request, '403.html', status=403)  # Render a custom 403 error page
+
+def dashboard(request):
+    return render(request, 'hr/dashboard.html')  # Ensure you have this template in the correct location

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartPOS ERP - Welcome</title>
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -12,9 +13,9 @@
         <p>Manage your business efficiently with our integrated system.</p>
     </header>
     <nav>
-        <a href="{% url 'hr_app:dashboard' %}">HR Management</a>
-        <a href="{% url 'inventory_app:dashboard' %}">Inventory Management</a>
-        <a href="{% url 'sales_app:dashboard' %}">Sales Management</a>
+        <a href="{% url 'hr:dashboard' %}">HR Management</a>
+        <a href="{% url 'inventory:dashboard' %}">Inventory Management</a>
+        <a href="{% url 'sales:dashboard' %}">Sales Management</a>
     </nav>
 </body>
 </html>
